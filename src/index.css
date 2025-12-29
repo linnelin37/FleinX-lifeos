@@ -1,0 +1,28 @@
+:root{
+  /* 字体：系统圆润栈（Mac 会优先走 SF Pro Rounded / SF Rounded 的观感） */
+  --fx-font: ui-rounded, system-ui, -apple-system, "SF Pro Rounded", "SF Pro Display",
+    "SF Pro Text", "PingFang SC", "Hiragino Sans GB", "Noto Sans SC",
+    "Microsoft YaHei", Arial, sans-serif;
+
+  /* 文字颜色层级：避免纯白刺眼 */
+  --fx-text: rgba(255,255,255,0.88);
+  --fx-text-2: rgba(255,255,255,0.72);
+  --fx-muted: rgba(255,255,255,0.52);
+
+  /* 输入框/卡片基础 */
+  --fx-border: rgba(255,255,255,0.14);
+  --fx-surface: rgba(255,255,255,0.06);
+  --fx-surface-2: rgba(255,255,255,0.08);
+
+  /* Focus glow（紫色柔光） */
+  --fx-focus: rgba(145,113,255,0.55);
+  --fx-focus-glow: rgba(145,113,255,0.18);
+}
+
+html, body {
+  font-family: var(--fx-font);
+  color: var(--fx-text);
+}
+
+.fx-sub { color: var(--fx-text-2); }
+.fx-muted { color: var(--fx-muted); }

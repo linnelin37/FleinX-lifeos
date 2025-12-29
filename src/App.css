@@ -1,0 +1,971 @@
+/* =========================================================
+   FleinX2026 · App.css (Clean v1.3 - Consolidated)
+   Goal: global UI tokens + consistent surfaces + minimal utilities
+   ========================================================= */
+
+/* -------------------------
+   1) Design Tokens
+   ------------------------- */
+:root {
+  /* Text */
+  --t-strong: rgba(255, 255, 255, 0.92);
+  --t-body: rgba(255, 255, 255, 0.82);
+  --t-sub: rgba(255, 255, 255, 0.62);
+  --t-muted: rgba(255, 255, 255, 0.52);
+
+  /* Background */
+  --bg0: #0d0d16;
+  --bg1: #17172a;
+
+  /* Surfaces */
+  --surface: rgba(18, 18, 28, 0.46);       /* main card */
+  --surface-2: rgba(255, 255, 255, 0.035); /* inner card */
+  --surface-3: rgba(255, 255, 255, 0.055); /* inputs */
+
+  /* Borders */
+  --line: rgba(255, 255, 255, 0.10);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --line-focus: rgba(108, 99, 255, 0.55);
+
+  /* Accent */
+  --primary: #6c63ff;
+  --primary-weak: rgba(108, 99, 255, 0.55);
+  --primary-glow: rgba(108, 99, 255, 0.14);
+
+  /* Radius */
+  --r-lg: 18px;
+  --r-md: 14px;
+  --r-sm: 12px;
+
+  /* Shadows */
+  --shadow-main: 0 18px 55px rgba(0, 0, 0, 0.30);
+  --shadow-soft: 0 8px 28px rgba(0, 0, 0, 0.25);
+  --shadow-focus: 0 0 0 1px rgba(108, 99, 255, 0.25),
+                  0 18px 60px rgba(0, 0, 0, 0.35);
+
+  /* Spacing */
+  --space-xs: 6px;
+  --space-sm: 10px;
+  --space-md: 14px;
+  --space-lg: 20px;
+
+  /* Typography */
+  --fz-page: 22px;
+  --fz-section: 16px;
+  --fz-cardTitle: 14px;
+  --fz-body: 13px;
+  --fz-muted: 12px;
+
+  /* Font */
+  --font: ui-rounded, ui-sans-serif, system-ui, -apple-system, "SF Pro Rounded",
+    "SF Pro Display", "PingFang SC", "HarmonyOS Sans", "Microsoft YaHei", Arial, sans-serif;
+}
+
+/* -------------------------
+   2) Global Reset
+   ------------------------- */
+* { box-sizing: border-box; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  color: var(--t-body);
+  background:
+    radial-gradient(1200px 700px at 20% 10%, rgba(108, 99, 255, 0.18), transparent 62%),
+    radial-gradient(900px 500px at 70% 20%, rgba(79, 195, 247, 0.10), transparent 58%),
+    linear-gradient(135deg, var(--bg0), var(--bg1));
+}
+
+#root { height: 100%; }
+
+/* -------------------------
+   3) App Layout
+   ------------------------- */
+.fx-app {
+  min-height: 100vh;
+  position: relative;
+  color: var(--t-body);
+}
+
+.fx-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(1000px 600px at 50% 0%, rgba(108, 99, 255, 0.12), transparent 62%);
+  opacity: 0.95;
+}
+
+.fx-container {
+  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 28px 22px 40px;
+}
+
+/* -------------------------
+   4) Topbar / Brand / Tabs
+   ------------------------- */
+.fx-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.fx-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.fx-brandMark {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: radial-gradient(circle at 30% 30%, rgba(108, 99, 255, 0.45), rgba(18, 18, 28, 0.10));
+  box-shadow: 0 0 20px rgba(108, 99, 255, 0.10);
+}
+
+.fx-brandText { min-width: 0; }
+
+.fx-kicker {
+  font-size: 12px;
+  color: var(--t-muted);
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fx-title {
+  font-size: 20px;
+  color: var(--t-strong);
+  font-weight: 680;
+  margin-top: 2px;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fx-tabs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.fx-tab {
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.03);
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, transform 80ms ease;
+}
+
+.fx-tab:hover {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.fx-tab:active { transform: translateY(1px); }
+
+/* -------------------------
+   5) Typography
+   ------------------------- */
+.fx-h1 {
+  font-size: var(--fz-page);
+  color: var(--t-strong);
+  font-weight: 720;
+  letter-spacing: 0.2px;
+}
+
+.fx-h2 {
+  font-size: var(--fz-section);
+  color: var(--t-strong);
+  font-weight: 680;
+  letter-spacing: 0.2px;
+}
+
+.fx-h3 {
+  font-size: var(--fz-cardTitle);
+  color: var(--t-strong);
+  font-weight: 660;
+  margin-bottom: 6px;
+}
+
+.fx-sub {
+  color: var(--t-sub);
+  font-size: var(--fz-body);
+  margin-top: 4px;
+  line-height: 1.55;
+}
+
+.fx-body {
+  color: var(--t-body);
+  font-size: var(--fz-body);
+  line-height: 1.7;
+}
+
+.fx-muted {
+  color: var(--t-muted);
+  font-size: var(--fz-muted);
+  line-height: 1.55;
+}
+
+.fx-footerNote {
+  margin-top: 14px;
+  color: var(--t-muted);
+  font-size: 12px;
+}
+
+/* Optional semantic utilities */
+.fx-pageTitle{
+  font-size: var(--fz-page);
+  font-weight: 720;
+  letter-spacing: .2px;
+  color: var(--t-strong);
+}
+.fx-sectionTitle{
+  font-size: var(--fz-section);
+  font-weight: 680;
+  letter-spacing: .2px;
+  color: var(--t-strong);
+}
+.fx-cardTitle{
+  font-size: var(--fz-cardTitle);
+  font-weight: 660;
+  color: var(--t-strong);
+}
+
+/* -------------------------
+   6) Cards / Layout Grid
+   ------------------------- */
+.fx-card {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r-lg);
+  backdrop-filter: blur(16px);
+}
+
+.fx-main {
+  padding: 18px;
+  min-height: 560px;
+  box-shadow: var(--shadow-main);
+}
+
+.fx-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 18px;
+}
+
+.fx-right {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media (max-width: 980px) {
+  .fx-layout { grid-template-columns: 1fr; }
+}
+
+/* Card roles (preferred) */
+.fx-card--content{
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+.fx-card--focus{
+  border: 1px solid var(--line-focus);
+  box-shadow: var(--shadow-focus);
+}
+.fx-card--utility{
+  border: 1px solid var(--line-soft);
+  background: var(--surface-2);
+  box-shadow: none;
+}
+
+.fx-cardHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 14px;
+}
+
+/* Stack helpers */
+.fx-stack-lg{ display: grid; gap: var(--space-lg); }
+.fx-stack-md{ display: grid; gap: var(--space-md); }
+.fx-stack-sm{ display: grid; gap: var(--space-sm); }
+
+/* -------------------------
+   7) Buttons (Single System)
+   ------------------------- */
+.fx-btn {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--t-body);
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: background 120ms ease, border-color 120ms ease, transform 80ms ease;
+}
+
+.fx-btn:hover { background: rgba(255, 255, 255, 0.06); }
+.fx-btn:active { transform: translateY(1px); }
+
+.fx-btnGhost {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.10);
+}
+
+.fx-btnGhost:hover { background: rgba(255, 255, 255, 0.05); }
+
+.fx-btnPrimary {
+  border-color: rgba(108, 99, 255, 0.50);
+  background: radial-gradient(circle at 20% 20%, rgba(138, 124, 255, 0.85), rgba(108, 99, 255, 0.60));
+  box-shadow: 0 10px 26px rgba(108, 99, 255, 0.16);
+  color: var(--t-strong);
+  font-weight: 680;
+}
+
+.fx-btnPrimary.is-disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Soft button (Modules Open →) */
+.fx-btnSoft{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+
+  padding: 6px 12px;
+  border-radius: 10px;
+
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(139,92,246,0.28);
+
+  color: rgba(167,139,250,0.98);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, box-shadow .15s ease;
+  cursor: pointer;
+}
+
+.fx-btnSoft:hover{
+  background: rgba(139,92,246,0.16);
+  border-color: rgba(139,92,246,0.45);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.35);
+  transform: translateY(-1px);
+}
+
+.fx-btnSoft:active{
+  transform: translateY(0px);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.28);
+}
+
+/* Small chip buttons (optional) */
+.fx-chip{
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.03);
+  border-radius: 999px;
+  padding: 6px 10px;
+}
+.fx-chip--focus{
+  border-color: var(--line-focus);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+/* -------------------------
+   8) Empty / Soft blocks
+   ------------------------- */
+.fx-empty {
+  margin-top: 10px;
+  padding: 16px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+/* -------------------------
+   9) Modules (Home right list)
+   ------------------------- */
+.fx-mods { padding: 18px; }
+
+.fx-modItem {
+  margin-top: 12px;
+  padding: 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+
+.fx-modTitle {
+  font-size: 14px;
+  color: var(--t-strong);
+  font-weight: 660;
+}
+
+.fx-modDesc {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--t-sub);
+  line-height: 1.6;
+}
+
+/* -------------------------
+   10) Wizard / Type Cards
+   ------------------------- */
+.fx-wizardCard {
+  padding: 18px;
+  box-shadow: var(--shadow-main);
+}
+
+.fx-step {
+  font-size: 12px;
+  color: var(--t-muted);
+  letter-spacing: 0.2px;
+  margin-bottom: 6px;
+}
+
+.fx-grid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+@media (max-width: 720px) {
+  .fx-grid { grid-template-columns: 1fr; }
+}
+
+/* IMPORTANT: fx-typeCard is used widely; keep stable */
+.fx-typeCard {
+  text-align: left;
+  width: 100%;
+  padding: 14px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  color: var(--t-body);
+  cursor: pointer;
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  box-shadow: none;
+}
+
+.fx-typeCard.is-active {
+  border-color: var(--line-focus);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.fx-typeCard.is-static { cursor: default; }
+
+.fx-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  margin-top: 6px;
+  box-shadow: 0 0 18px rgba(108, 99, 255, 0.10);
+}
+
+.fx-dot-learning { background: #4fc3f7; }
+.fx-dot-work { background: #6c63ff; }
+.fx-dot-life { background: #81c784; }
+.fx-dot-project { background: #ff9800; }
+
+.fx-typeTitle {
+  font-size: 14px;
+  color: var(--t-strong);
+  font-weight: 660;
+}
+
+.fx-typeEn {
+  color: var(--t-muted);
+  font-weight: 600;
+  font-size: 12px;
+  margin-left: 6px;
+}
+
+.fx-typeDesc {
+  margin-top: 6px;
+  font-size: 12px;
+  color: var(--t-sub);
+  line-height: 1.6;
+}
+
+.fx-wizardFooter {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+}
+
+/* -------------------------
+   11) Inputs (single source of truth)
+   ------------------------- */
+.fx-input,
+.fx-textarea,
+select.fx-input {
+  width: 100%;
+  border: 1px solid var(--line-strong);
+  outline: none;
+  background: var(--surface-3);
+  color: var(--t-strong);
+  font-size: 14px;
+  line-height: 1.5;
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  transition: border-color 120ms ease, box-shadow 120ms ease, background 120ms ease;
+}
+
+.fx-textarea {
+  resize: vertical;
+  min-height: 96px;
+}
+
+.fx-input::placeholder,
+.fx-textarea::placeholder {
+  color: rgba(255, 255, 255, 0.40);
+}
+
+.fx-input:focus,
+.fx-textarea:focus,
+select.fx-input:focus {
+  border-color: var(--primary-weak);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+  background: rgba(255, 255, 255, 0.07);
+}
+
+.fx-input[type="date"],
+.fx-input[type="number"],
+.fx-input[type="text"] { color-scheme: dark; }
+
+/* -------------------------
+   12) Home · Vision Card
+   ------------------------- */
+.fx-visionCard{
+  padding: 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  border-radius: var(--r-lg);
+}
+
+.fx-visionCard.is-active{
+  border-color: var(--line-focus);
+  box-shadow: 0 0 0 4px var(--primary-glow);
+}
+
+.fx-visionTop{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.fx-visionType{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.fx-visionTypeText{
+  color: var(--t-muted);
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fx-badge{
+  font-size: 12px;
+  color: rgba(255,255,255,0.88);
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(108, 99, 255, 0.16);
+  border: 1px solid rgba(108, 99, 255, 0.22);
+}
+
+.fx-visionTitle{
+  font-size: 16px;
+  font-weight: 720;
+  color: var(--t-strong);
+  letter-spacing: 0.2px;
+  line-height: 1.25;
+}
+
+.fx-visionMeta{
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--t-sub);
+}
+
+.fx-visionActions{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 14px;
+}
+
+/* -------------------------
+   13) Review / Dashboard helpers
+   ------------------------- */
+.fx-typeCard.fx-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+  cursor: default;
+}
+
+.fx-ytdHero {
+  font-weight: 720;
+  letter-spacing: 0.2px;
+}
+.fx-ytdMeta {
+  color: var(--t-muted);
+  font-size: 12px;
+}
+
+/* -------------------------
+   14) Pills (ONE source of truth)
+   ------------------------- */
+.fx-pill{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  line-height: 1;
+  border: 1px solid var(--line);
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.86);
+  white-space: nowrap;
+}
+
+.fx-pill-neutral{
+  background: rgba(255,255,255,0.03);
+  border-color: rgba(255,255,255,0.10);
+  color: rgba(255,255,255,0.72);
+}
+.fx-pill-primary{
+  background: rgba(108, 99, 255, 0.16);
+  border-color: rgba(108, 99, 255, 0.26);
+  color: rgba(255,255,255,0.92);
+}
+.fx-pill-info{
+  background: rgba(79, 195, 247, 0.14);
+  border-color: rgba(79, 195, 247, 0.24);
+}
+.fx-pill-ok{
+  background: rgba(129, 199, 132, 0.14);
+  border-color: rgba(129, 199, 132, 0.24);
+}
+.fx-pill-warn{
+  background: rgba(255, 152, 0, 0.14);
+  border-color: rgba(255, 152, 0, 0.24);
+}
+.fx-pill-danger{
+  background: rgba(244, 67, 54, 0.12);
+  border-color: rgba(244, 67, 54, 0.22);
+}
+
+/* -------------------------
+   15) Welcome / Onboarding
+   ------------------------- */
+.fx-centerScreen{
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+}
+
+.fx-welcomeCard{
+  width: min(860px, 92vw);
+  padding: 22px;
+}
+
+.fx-welcomeHead{
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
+  margin-bottom: 16px;
+}
+
+.fx-avatarPh{
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.14);
+  background: rgba(255,255,255,0.04);
+  flex: 0 0 auto;
+}
+
+.fx-welcomeTitle{
+  margin-top: 2px;
+  font-size: 22px;
+  font-weight: 760;
+  color: var(--t-strong);
+  letter-spacing: 0.2px;
+}
+
+.fx-welcomeFocus{
+  margin-top: 16px;
+  padding: 16px;
+  border-radius: var(--r-lg);
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.03);
+  box-shadow: 0 18px 55px rgba(0,0,0,0.25);
+}
+
+.fx-welcomeFocusTop{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: baseline;
+  margin-bottom: 10px;
+}
+
+.fx-welcomeTextarea{ min-height: 120px; }
+
+.fx-welcomeRow{
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 720px){
+  .fx-welcomeRow{ grid-template-columns: 1fr; }
+}
+
+.fx-welcomeLabel{
+  color: var(--t-sub);
+  font-size: 13px;
+  font-weight: 650;
+}
+
+.fx-welcomeActions{
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* -------------------------
+   16) Review/Wizard UI helpers (structured)
+   ------------------------- */
+
+/* 2-col grid helper */
+.fx-reviewGrid{
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 12px;
+}
+@media (max-width: 980px){
+  .fx-reviewGrid{ grid-template-columns: 1fr; }
+}
+
+/* Step6 2 cards */
+.fx-grid2{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+@media (max-width: 980px){
+  .fx-grid2{ grid-template-columns: 1fr; }
+}
+
+/* Panel pattern */
+.fx-panel{ background: var(--surface); }
+.fx-panelHeader{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fx-panelHeader .fx-h3{ line-height: 1.2; }
+
+/* Review hero */
+.fx-reviewHero{
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: flex-start;
+}
+@media (max-width: 980px){
+  .fx-reviewHero{ flex-direction: column; align-items: stretch; }
+}
+.fx-reviewTitle{
+  font-size: 18px;
+  font-weight: 720;
+  color: var(--t-strong);
+  letter-spacing: 0.2px;
+  line-height: 1.25;
+  word-break: break-word;
+}
+.fx-reviewMeta{
+  margin-top: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.fx-reviewActions{
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+}
+
+/* KV blocks */
+.fx-kv{ display: grid; gap: 10px; }
+.fx-kvRow{
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.fx-kvKey{
+  color: var(--t-sub);
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.fx-kvVal{
+  margin-top: 8px;
+  color: var(--t-strong);
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+}
+
+/* Milestones list */
+.fx-milestoneList{ display: grid; gap: 10px; }
+.fx-milestoneItem{
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.fx-milestoneHead{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+/* Stats grid */
+.fx-statGrid{ display: grid; gap: 10px; }
+.fx-stat{
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.fx-statVal{
+  margin-top: 6px;
+  font-size: 18px;
+  font-weight: 720;
+  color: var(--t-strong);
+}
+
+/* Risks list */
+.fx-riskList{ display: grid; gap: 10px; }
+.fx-riskItem{
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+  border-radius: var(--r-md);
+  padding: 12px;
+}
+.fx-riskHead{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.fx-fieldTag { margin-right: 8px; }
+
+/* Wizard: Question Blocks & Pills (namespaced to avoid conflicts) */
+.fx-qBlock{
+  border: 1px solid rgba(255,255,255,0.10);
+  background: rgba(255,255,255,0.03);
+  border-radius: 16px;
+  padding: 14px;
+}
+
+.fx-qTop{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.fx-qPill{
+  display: inline-flex;
+  align-items: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.06);
+  color: rgba(255,255,255,0.86);
+  white-space: nowrap;
+}
+
+.fx-qPill-q1{ border-color: rgba(108,99,255,0.35); background: rgba(108,99,255,0.14); }
+.fx-qPill-q2{ border-color: rgba(79,195,247,0.35); background: rgba(79,195,247,0.14); }
+.fx-qPill-q3{ border-color: rgba(255,152,0,0.35);  background: rgba(255,152,0,0.14); }
+.fx-qPill-q4{ border-color: rgba(129,199,132,0.35); background: rgba(129,199,132,0.14); }
+
+.fx-qTitle{
+  font-size: 14px;
+  font-weight: 700;
+  color: rgba(255,255,255,0.92);
+}
+
+.fx-qHint{
+  margin-top: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.60);
+  line-height: 1.55;
+}
+
+/* -------------------------
+   17) Basic responsive polish
+   ------------------------- */
+@media (max-width: 720px) {
+  .fx-container { padding: 22px 16px 34px; }
+  .fx-title { font-size: 18px; }
+  .fx-btn { padding: 9px 12px; }
+}
