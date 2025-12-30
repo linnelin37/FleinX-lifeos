@@ -317,7 +317,10 @@ export default function ReviewPage({ activeVisionId, onBack, onOpenVision, onGo 
             <div className="fx-brandMark" />
             <div className="fx-brandText">
               <div className="fx-kicker">FleinX2026</div>
-              <div className="fx-title">Review · {month}</div>
+              
+              <div className="fx-title">
+                Review · <span className="fx-reviewMonth">{month}</span>
+                </div>
             </div>
           </div>
 
@@ -405,6 +408,7 @@ export default function ReviewPage({ activeVisionId, onBack, onOpenVision, onGo 
 
             {/* Dashboards (keep card feeling) */}
             <div
+            className="fx-reviewProgressGrid"
               style={{
                 display: "grid",
                 gridTemplateColumns: "repeat(3, minmax(180px, 1fr))",

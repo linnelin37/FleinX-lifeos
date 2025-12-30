@@ -231,8 +231,8 @@ export default function VisionDetailPage({ id, onBack, onSetActive }: Props) {
           </div>
 
           {/* Summary Header */}
-          <div className="fx-card" style={{ padding: 16, marginTop: 14 }}>
-            <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
+<div className="fx-card fx-vd-summary" style={{ padding: 16, marginTop: 14 }}>
+  <div className="fx-vd-summaryRow" style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start" }}>
               <div style={{ minWidth: 0 }}>
                 <div className="fx-muted">Vision Type</div>
                 <div className="fx-h2" style={{ marginTop: 6, wordBreak: "break-word" }}>
@@ -240,20 +240,23 @@ export default function VisionDetailPage({ id, onBack, onSetActive }: Props) {
                 </div>
               </div>
 
-              <div style={{ textAlign: "right", minWidth: 240 }}>
-                <div className="fx-muted">Due</div>
-                <input
-                  className="fx-input"
-                  type="text"
-                  placeholder="e.g. 2026-12-31 / Q3 / Dec"
-                  value={deadline}
-                  onChange={(e) => {
-                    setDeadline(e.target.value);
-                    markDirty();
-                  }}
-                  style={{ marginTop: 8 }}
-                />
-              </div>
+<div
+  className="fx-vd-due"
+  style={{ textAlign: "right", minWidth: 240 }}
+>
+  <div className="fx-muted">Due</div>
+  <input
+    className="fx-input"
+    type="text"
+    placeholder="e.g. 2026-12-31 / Q3 / Dec"
+    value={deadline}
+    onChange={(e) => {
+      setDeadline(e.target.value);
+      markDirty();
+    }}
+    style={{ marginTop: 8 }}
+  />
+</div>
             </div>
 
             <div style={{ marginTop: 12 }}>
@@ -288,7 +291,7 @@ export default function VisionDetailPage({ id, onBack, onSetActive }: Props) {
           </div>
 
           {/* 2-column layout */}
-          <div style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 12, marginTop: 12, padding: 12 }}>
+          <div className="fx-vd-grid" style={{ display: "grid", gridTemplateColumns: "1.15fr 0.85fr", gap: 12, marginTop: 12, padding: 12 }}>
             {/* Left */}
             <div style={{ display: "grid", gap: 12 }}>
               {/* Vision Core (Editable) */}
@@ -359,7 +362,7 @@ export default function VisionDetailPage({ id, onBack, onSetActive }: Props) {
                     v.milestones.map((m, idx) => (
                       <div
                         key={`${m.date}-${idx}`}
-                        className="fx-typeCard"
+                        className="fx-typeCard fx-vd-milestoneRow"
                         style={{
                           padding: 12,
                           background: "rgba(255,255,255,0.035)",
@@ -490,6 +493,7 @@ export default function VisionDetailPage({ id, onBack, onSetActive }: Props) {
                         </div>
 
                         <div
+                        className="fx-vd-riskGrid"
                           style={{
                             display: "grid",
                             gridTemplateColumns: "1.1fr 0.9fr", // 55/45

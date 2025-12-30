@@ -249,7 +249,9 @@ export default function RecordsPage({ activeVisionId, onBack, onOpenVision }: Pr
 
 
           {/* Type cards */}
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 12 }}>
+          <div 
+           className="fx-reviewProgressGrid"
+          style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 10, marginTop: 12 }}>
             {(["note", "idea", "log"] as RecordType[]).map((t) => {
               const active = kind === t;
               return (

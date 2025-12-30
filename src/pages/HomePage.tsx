@@ -1,5 +1,7 @@
 // src/pages/HomePage.tsx
+import { useEffect, useMemo, useState } from "react";
 import type { VisionRecord } from "../lib/visionStore";
+import { getWelcomeName } from "../lib/prefStore";
 
 type Props = {
   visions: VisionRecord[];
@@ -15,7 +17,6 @@ type Props = {
 };
 
 function typeLabel(v: VisionRecord) {
-  // 兼容旧数据里可能没有 typeZh / typeEn
   const zh =
     (v as any).typeZh ||
     ({
@@ -44,35 +45,78 @@ function dotClassByType(type: VisionRecord["type"]) {
   return "fx-dot-project";
 }
 
+function normalizeHomeTitle(name: string) {
+  const t = (name || "").trim();
+  return t.length ? t : "My2026";
+}
+
 export default function HomePage(props: Props) {
   const { visions, activeVisionId, onCreate, onRefresh, onClearAll, onDelete, onSetActive, onGo } = props;
 
   const hasVisions = visions.length > 0;
 
+  // Home title (from Welcome)
+  const [homeTitle, setHomeTitle] = useState(() => normalizeHomeTitle(getWelcomeName()));
+
+  useEffect(() => {
+    const sync = () => setHomeTitle(normalizeHomeTitle(getWelcomeName()));
+    sync();
+
+    // When prefStore writes, it should dispatch: new Event("fx:prefs_changed")
+    window.addEventListener("fx:prefs_changed", sync);
+
+    // fallback: in case user edits storage from devtools etc.
+    window.addEventListener("storage", sync);
+
+    return () => {
+      window.removeEventListener("fx:prefs_changed", sync);
+      window.removeEventListener("storage", sync);
+    };
+  }, []);
+
+  const tabs = useMemo(
+    () => [
+     
+      { t: "Goals", h: "#/goals" },
+      { t: "Time", h: "#/time" },
+      { t: "Records", h: "#/records" },
+      { t: "Review", h: "#/review" },
+       { t: "Dashboard", h: "#/dashboard" },
+      { t: "Settings", h: "#/settings" },
+    ],
+    []
+  );
+
   return (
     <div className="fx-app">
       <div className="fx-bg" />
+
       <div className="fx-container">
         {/* Topbar */}
-        <div className="fx-topbar">
-          <div className="fx-brand">
-            <div className="fx-brandMark" />
-            <div className="fx-brandText">
-              <div className="fx-kicker">FleinX2026</div>
-              <div className="fx-title">Linne&apos;s 2026</div>
+        <div className="fx-topbar fx-topbarHome">
+          {/* Row 1: Brand */}
+          <div className="fx-topbarRow">
+            <div className="fx-brand">
+              <div className="fx-brandMark" />
+              <div className="fx-brandText" style={{ minWidth: 0 }}>
+                <div className="fx-kicker">FleinX2026</div>
+                <div
+                  className="fx-title"
+                  style={{
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {homeTitle}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Tabs (keep titles) */}
-          <div className="fx-tabs">
-            {[
-              { t: "Dashboard", h: "#/dashboard" },
-              { t: "Goals", h: "#/goals" },
-              { t: "Time", h: "#/time" },
-              { t: "Records", h: "#/records" },
-              { t: "Review", h: "#/review" },
-              { t: "Settings", h: "#/settings" },
-            ].map((x) => (
+          {/* Row 2: Tabs (mobile 横向滚动由 CSS 控制，不在这里加 Menu) */}
+          <div className="fx-tabs fx-tabsHome">
+            {tabs.map((x) => (
               <button key={x.t} type="button" className="fx-tab" onClick={() => onGo(x.h)}>
                 {x.t}
               </button>
@@ -87,7 +131,7 @@ export default function HomePage(props: Props) {
             <div className="fx-cardHeader">
               <div style={{ minWidth: 0 }}>
                 <div className="fx-h2">2026 Vision</div>
-                <div className="fx-sub">用一张卡片，把一年变成一条清晰的路线</div>
+                <div className="fx-sub">把一年变成一条清晰的路线</div>
               </div>
 
               <button className="fx-btn fx-btnPrimary" onClick={onCreate} type="button">
@@ -114,8 +158,16 @@ export default function HomePage(props: Props) {
 
                     return (
                       <div key={v.id} className={`fx-card fx-visionCard ${isActive ? "is-active" : ""}`} style={{ padding: 16 }}>
-                        {/* top line: type dot + label + active badge */}
-                        <div className="fx-visionTop" style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center" }}>
+                        {/* top line */}
+                        <div
+                          className="fx-visionTop"
+                          style={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: 12,
+                            alignItems: "center",
+                          }}
+                        >
                           <div className="fx-visionType" style={{ display: "flex", alignItems: "center", gap: 10, minWidth: 0 }}>
                             <span className={`fx-dot ${dotCls}`} />
                             <div className="fx-muted" style={{ whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
@@ -126,7 +178,7 @@ export default function HomePage(props: Props) {
                           {isActive ? <div className="fx-badge">Active</div> : null}
                         </div>
 
-                        {/* title: the only visual focus */}
+                        {/* title */}
                         <div className="fx-visionTitle" style={{ marginTop: 10 }}>
                           {`【${v.title || "-"}】`}
                         </div>

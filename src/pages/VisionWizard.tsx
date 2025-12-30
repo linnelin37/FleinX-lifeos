@@ -275,12 +275,12 @@ export default function VisionWizard() {
     // 仅用于 “Q1 标题句” 的一行（不是小字提示；你要求删除的小字都不再渲染）
     const q1Title =
       t === "work"
-        ? "到 2026 年底，你希望在工作上达成什么“可被确认的结果”？"
+        ? "2026年，你希望在工作上达成什么“可被确认的结果”？"
         : t === "project"
-          ? "到 2026 年底，你希望产出什么“明确成果”？"
+          ? "2026年，你希望产出什么“明确成果”？"
           : t === "life"
-            ? "到 2026 年底，你希望生活状态变成什么样？"
-            : "到 2026 年底，你希望“学会什么”并能被确认？";
+            ? "2026年，你希望生活状态变成什么样？"
+            : "2026，你希望“学会什么”并能被确认？";
 
     const typeChip = `${meta.titleZh} / ${meta.titleEn}`;
 
@@ -340,9 +340,6 @@ export default function VisionWizard() {
                   <span className="fx-pill" style={{ padding: "6px 10px" }}>
                     {typeChip}
                   </span>
-                  <span className="fx-pill" style={{ padding: "6px 10px" }}>
-                    2026
-                  </span>
                 </div>
               </div>
             </div>
@@ -352,7 +349,7 @@ export default function VisionWizard() {
               {/* Q1 */}
               <div className="fx-qBlock">
                 <div className="fx-qTop">
-                  <span className="fx-pill fx-pill-q1">Q1 · 核心结果</span>
+                  <span className="fx-pill fx-pill-q1">Q1 · 明确结果</span>
                   <div className="fx-qTitle">{q1Title}</div>
                 </div>
 
@@ -384,7 +381,7 @@ export default function VisionWizard() {
               {/* Q3 */}
               <div className="fx-qBlock">
                 <div className="fx-qTop">
-                  <span className="fx-pill fx-pill-q3">Q3 · 验收指标</span>
+                  <span className="fx-pill fx-pill-q3">Q3 · 验收标准</span>
                   <div className="fx-qTitle">怎么验收？</div>
                 </div>
 

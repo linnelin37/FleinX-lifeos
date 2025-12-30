@@ -1,6 +1,7 @@
 // src/pages/WelcomePage.tsx
 import { useEffect, useMemo, useState } from "react";
 import {
+  getWelcomeDone,
   setWelcomeDone,
   getWelcomeName,
   setWelcomeName,
@@ -13,24 +14,52 @@ type Props = {
 };
 
 const FIXED_LINE = "Fleinx 是一个以“事情”为核心的人生项目管理系统。";
-const DEFAULT_NOTE = "不记录你忙不忙，只记录:你的人生是否在推进你真正想做成的事情。";
+const DEFAULT_NAME = "My2026";
+const DEFAULT_NOTE = "不记录你忙不忙，，<br />只记录：你的人生是否在推进你真正想做成的事情。";
+
+function normalizeName(v: string) {
+  const t = (v || "").trim();
+  return t.length ? t : DEFAULT_NAME;
+}
+
+function normalizeNote(v: string) {
+  const t = (v || "").trim();
+  return t.length ? t : DEFAULT_NOTE;
+}
 
 export default function WelcomePage({ onContinue }: Props) {
-  const initialName = useMemo(() => getWelcomeName() || "Linne's2026", []);
-  const initialNote = useMemo(() => getWelcomeNote() || DEFAULT_NOTE, []);
+  // 只在首渲染读取一次，避免反复读 localStorage
+  const init = useMemo(() => {
+    const storedName = getWelcomeName();
+    const storedNote = getWelcomeNote();
+    const done = getWelcomeDone();
 
-  const [name, setName] = useState(initialName);
-  const [note, setNote] = useState(initialNote);
+    return {
+      name: normalizeName(storedName),
+      note: normalizeNote(storedNote),
+      done,
+    };
+  }, []);
 
+  const [name, setName] = useState(init.name);
+  const [note, setNote] = useState(init.note);
+
+  // 如果 localStorage 里没值，首次进入就写入默认值，保证 Home 有数据源
   useEffect(() => {
-    if (!getWelcomeName()) setWelcomeName(initialName);
-    if (!getWelcomeNote()) setWelcomeNote(initialNote);
+    if (!getWelcomeName()) setWelcomeName(init.name);
+    if (!getWelcomeNote()) setWelcomeNote(init.note);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function save() {
-    setWelcomeName((name || "").trim() || "My2026");
-    setWelcomeNote((note || "").trim() || DEFAULT_NOTE);
+    const nextName = normalizeName(name);
+    const nextNote = normalizeNote(note);
+
+    setName(nextName);
+    setNote(nextNote);
+
+    setWelcomeName(nextName);
+    setWelcomeNote(nextNote);
   }
 
   function handleContinue() {
@@ -64,7 +93,7 @@ export default function WelcomePage({ onContinue }: Props) {
               <div className="fx-h3" style={{ margin: 0 }}>
                 你的年度宣言
               </div>
-              <div className="fx-muted"></div>
+              <div className="fx-muted" />
             </div>
 
             <textarea
@@ -75,7 +104,7 @@ export default function WelcomePage({ onContinue }: Props) {
             />
 
             <div className="fx-muted" style={{ marginTop: 8 }}>
-            
+              写一句能让你在低谷时也愿意继续的句子。
             </div>
           </div>
 
@@ -86,12 +115,13 @@ export default function WelcomePage({ onContinue }: Props) {
               className="fx-input"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              placeholder="My2026"
+              placeholder={DEFAULT_NAME}
+              autoComplete="off"
             />
           </div>
 
           <div className="fx-muted" style={{ marginTop: 10 }}>
-            本地单机 · 可部署分享 · 无需登录
+            本地单机 ·
           </div>
 
           {/* Actions */}
@@ -100,7 +130,7 @@ export default function WelcomePage({ onContinue }: Props) {
               保存
             </button>
             <button className="fx-btn fx-btnPrimary" type="button" onClick={handleContinue}>
-              继续 →
+              {init.done ? "进入 →" : "继续 →"}
             </button>
           </div>
         </div>

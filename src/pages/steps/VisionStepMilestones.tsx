@@ -86,7 +86,7 @@ export default function VisionStepMilestones({
               <div key={`${m.date}-${idx}`} style={{ display: "grid", gap: 8 }}>
                 <div className="fx-muted">M{idx + 1}：阶段里程碑</div>
 
-                <div style={{ display: "grid", gridTemplateColumns: "220px 1fr", gap: 10 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "120px 1fr", gap: 10 }}>
                   <input
                     className="fx-input"
                     value={m.date}

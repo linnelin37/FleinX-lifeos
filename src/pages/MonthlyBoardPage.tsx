@@ -234,7 +234,7 @@ void softPanel;
             <div className="fx-h3" style={{ margin: 0 }}>
               Year Overview · {year}
             </div>
-            <div className="fx-sub">不是激励你开始，而是确认你已经在路上了。Keep going!</div>
+            <div className="fx-sub">不是激励你开始，而是确认你已经在路上了。</div>
           </div>
 
           <div style={{ display: "grid", gap: 16 }}>
@@ -283,6 +283,7 @@ void softPanel;
                           >
                             {/* ====== Layout: LEFT (Vision) | RIGHT (Months) | FAR RIGHT (Action) ====== */}
                             <div
+                            className="fx-mbRow"
                               style={{
                                 display: "grid",
                                 gridTemplateColumns: "360px 1fr 160px",
@@ -291,7 +292,7 @@ void softPanel;
                               }}
                             >
                               {/* LEFT: Vision block (exact order you asked) */}
-                              <div style={{ minWidth: 0 }}>
+                             <div className="fx-mbLeft" style={{ minWidth: 0 }}>
                                 
 
                                 <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap", marginTop: 10 }}>
@@ -340,9 +341,9 @@ void softPanel;
                               </div>
 
                               {/* RIGHT: Months list (NO pills / NO capsule) */}
-                              <div style={{ minWidth: 0 }}>
+                              <div className="fx-mbRight" style={{ minWidth: 0 }}>
                                 <div className="fx-muted" style={{ fontSize: 12, marginBottom: 10 }}>
-                                  {isExpanded ? "Year Summary" : "Recent 3 months"} · Time (T) / Goals (G) / Records (R)
+                                  {isExpanded ? "Year Summary" : "Recent 3 months"} 
                                 </div>
 
                                 <div style={{ display: "grid", gap: 10 }}>
@@ -369,7 +370,7 @@ void softPanel;
                               </div>
 
                               {/* FAR RIGHT: Expand Year (same placement as Check on Dashboard) */}
-                              <div style={{ display: "grid", justifyItems: "center", gap: 8 }}>
+                             <div className="fx-mbAction" style={{ display: "grid", justifyItems: "center", gap: 8 }}>
                                 <button className="fx-btn fx-btnPrimary" type="button" onClick={() => toggleVisionYear(v.id)}>
                                   {isExpanded ? "Collapse" : "Expand Year →"}
                                 </button>

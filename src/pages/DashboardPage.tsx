@@ -225,152 +225,125 @@ export default function DashboardPage({ visions, activeVisionId, onBack, onGo }:
                       return (
                         <div key={v.id} className={`fx-typeCard ${isActive ? "is-active" : ""}`} style={{ padding: 14 }}>
                           {/* 4 columns */}
-                          <div
-                            style={{
-                              display: "grid",
-                              gridTemplateColumns: "minmax(260px, 1fr) 240px 260px 180px",
-                              gap: 16,
-                              alignItems: "center",
-                            }}
-                          >
-                            {/* 1) Vision (更突出) */}
-                            <div style={{ minWidth: 0 }}>
-                              <div
-                                style={{
-                                  fontSize: 18,
-                                  fontWeight: 800,
-                                  letterSpacing: 0.2,
-                                  lineHeight: 1.2,
-                                  whiteSpace: "nowrap",
-                                  overflow: "hidden",
-                                  textOverflow: "ellipsis",
-                                  marginBottom: 10,
-                                }}
-                                title={v.title}
-                              >
-                                {v.title ? (v.title.startsWith("【") ? v.title : `【${v.title}】`) : "【-】"}{" "}
-                                {isActive ? <span className="fx-muted" style={{ fontWeight: 700 }}>（Active）</span> : null}
-                              </div>
+                         <div className="fx-dashRowGrid">
+  {/* 1) Vision */}
+  <div className="fx-dashColVision" style={{ minWidth: 0 }}>
+    <div
+      style={{
+        fontSize: 18,
+        fontWeight: 800,
+        letterSpacing: 0.2,
+        lineHeight: 1.2,
+        whiteSpace: "nowrap",
+        overflow: "hidden",
+        textOverflow: "ellipsis",
+        marginBottom: 10,
+      }}
+      title={v.title}
+    >
+      {v.title ? (v.title.startsWith("【") ? v.title : `【${v.title}】`) : "【-】"}{" "}
+      {isActive ? <span className="fx-muted" style={{ fontWeight: 700 }}>（Active）</span> : null}
+    </div>
 
-                              {/* Open Vision 降级：保持 Ghost，但视觉更“轻” */}
-                              <button
-                                className="fx-btn fx-btnGhost"
-                                type="button"
-                                style={{ opacity: 0.9 }}
-                                onClick={() => onGo(`#/vision/${v.id}`)}
-                              >
-                                Open Vision →
-                              </button>
-                            </div>
+    <button
+      className="fx-btn fx-btnGhost"
+      type="button"
+      style={{ opacity: 0.9 }}
+      onClick={() => onGo(`#/vision/${v.id}`)}
+    >
+      Open Vision →
+    </button>
+  </div>
 
-                            {/* 2) Milestone Progress (更辅助：更细更灰) */}
-                            <div>
-                              <div className="fx-muted" style={{ marginBottom: 8 }}>
-                                Milestones
-                              </div>
+  {/* 2) Milestone Progress */}
+  <div className="fx-dashColMilestones">
+    <div className="fx-muted" >
+      Milestones
+    </div>
 
-                              {[
-                                { label: "M1", p: m1?.pct ?? 0 },
-                                { label: "M2", p: m2?.pct ?? 0 },
-                                { label: "M3", p: m3?.pct ?? 0 },
-                              ].map((x) => (
-                                <div
-                                  key={x.label}
-                                  style={{
-                                    display: "grid",
-                                    gridTemplateColumns: "28px 1fr 44px",
-                                    gap: 8,
-                                    alignItems: "center",
-                                    marginBottom: 8,
-                                    opacity: 0.9,
-                                  }}
-                                >
-                                  <div className="fx-muted">{x.label}</div>
-                                  <div
-                                    style={{
-                                      height: 6,
-                                      borderRadius: 999,
-                                      background: "rgba(255,255,255,0.07)",
-                                      overflow: "hidden",
-                                    }}
-                                  >
-                                    <div
-                                      style={{
-                                        height: "100%",
-                                        width: `${Math.round(clamp(x.p, 0, 1) * 100)}%`,
-                                        background: "rgba(255,255,255,0.45)",
-                                      }}
-                                    />
-                                  </div>
-                                  <div className="fx-muted" style={{ textAlign: "right" }}>
-                                    {pctToText(x.p)}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
+    {[
+      { label: "M1", p: m1?.pct ?? 0 },
+      { label: "M2", p: m2?.pct ?? 0 },
+      { label: "M3", p: m3?.pct ?? 0 },
+    ].map((x) => (
+      <div
+        key={x.label}
+        style={{
+          display: "grid",
+          gridTemplateColumns: "28px 1fr 44px",
+          gap: 8,
+          alignItems: "center",
+          marginBottom: 8,
+          opacity: 0.9,
+        }}
+      >
+        <div className="fx-muted">{x.label}</div>
+        <div style={{ height: 6, borderRadius: 999, background: "rgba(255,255,255,0.07)", overflow: "hidden" }}>
+          <div
+            style={{
+              height: "100%",
+              width: `${Math.round(clamp(x.p, 0, 1) * 100)}%`,
+              background: "rgba(255,255,255,0.45)",
+            }}
+          />
+        </div>
+        <div className="fx-muted" style={{ textAlign: "right" }}>
+          {pctToText(x.p)}
+        </div>
+      </div>
+    ))}
+  </div>
 
-                            {/* 3) YTD Summary (更突出) */}
-                            <div>
-                              <div className="fx-muted" style={{ marginBottom: 8 }}>
-                                YTD Summary
-                              </div>
+  {/* 3) YTD Summary */}
+  <div className="fx-dashColYtd">
+    <div className="fx-muted" >
+      YTD Summary
+    </div>
 
-                              <div className="fx-card" style={{ padding: 10 }}>
-                                <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
-                                  {[
-                                    { k: "T", v: formatHoursHalfFromMins(mins) },
-                                    { k: "G", v: String(gDone || 0) },
-                                    { k: "R", v: String(rCnt || 0) },
-                                  ].map((x) => (
-                                    <div key={x.k} style={ytdPillStyle(isActive)}>
-                                      <span className="fx-muted" style={{ fontWeight: 800 }}>
-                                        {x.k}:
-                                      </span>
-                                      <span className="fx-h3" style={{ margin: 0, fontSize: 14 }}>
-                                        {x.v}
-                                      </span>
-                                    </div>
-                                  ))}
-                                </div>
+    <div className="fx-card" style={{ padding: 10 }}>
+      <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>
+        {[
+          { k: "T", v: formatHoursHalfFromMins(mins) },
+          { k: "G", v: String(gDone || 0) },
+          { k: "R", v: String(rCnt || 0) },
+        ].map((x) => (
+          <div key={x.k} style={ytdPillStyle(isActive)}>
+            <span className="fx-muted" style={{ fontWeight: 800 }}>
+              {x.k}:
+            </span>
+            <span className="fx-h3" style={{ margin: 0, fontSize: 14 }}>
+              {x.v}
+            </span>
+          </div>
+        ))}
+      </div>
 
-                                {/* Show 12 months 降级：更轻、更小 */}
-                                <button
-                                  className="fx-btn fx-btnGhost"
-                                  type="button"
-                                  style={{
-                                    width: "100%",
-                                    justifyContent: "center",
-                                    marginTop: 10,
-                                    opacity: 0.85,
-                                  }}
-                                  onClick={() => onGo("#/months")}
-                                >
-                                  Show 12 months →
-                                </button>
-                              </div>
-                            </div>
+      <button
+        className="fx-btn fx-btnGhost"
+        type="button"
+        style={{ width: "100%", justifyContent: "center", marginTop: 10, opacity: 0.85 }}
+        onClick={() => onGo("#/months")}
+      >
+        Show 12 months →
+      </button>
+    </div>
+  </div>
 
-                            {/* 4) Check (主 CTA) */}
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                                gap: 10,
-                                alignItems: "flex-end",
-                              }}
-                            >
-                              <button
-                                className="fx-btn fx-btnPrimary"
-                                type="button"
-                                onClick={() => onGo(`#/review?visionId=${encodeURIComponent(v.id)}&month=now`)}
-                              >
-                                Check →
-                              </button>
-                              <div className="fx-muted" style={{ textAlign: "right" }}>
-                                Review
-                              </div>
-                            </div>
-                          </div>
+  {/* 4) Check */}
+  <div className="fx-dashColCta" style={{ display: "flex", flexDirection: "column", gap: 10, alignItems: "flex-end" }}>
+    <button
+      className="fx-btn fx-btnPrimary"
+      type="button"
+      onClick={() => onGo(`#/review?visionId=${encodeURIComponent(v.id)}&month=now`)}
+    >
+      Check →
+    </button>
+    <div className="fx-muted" style={{ textAlign: "right" }}>
+      Review
+    </div>
+  </div>
+</div>
+
                         </div>
                       );
                     })}

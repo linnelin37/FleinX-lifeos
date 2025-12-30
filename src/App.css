@@ -950,8 +950,9 @@ select.fx-input:focus {
 
 .fx-qTitle{
   font-size: 14px;
-  font-weight: 700;
-  color: rgba(255,255,255,0.92);
+  font-weight: 500;   /* 700 -> 500：不加粗 */
+  color: rgba(255,255,255,0.88);
+  line-height: 1.45;
 }
 
 .fx-qHint{
@@ -968,4 +969,195 @@ select.fx-input:focus {
   .fx-container { padding: 22px 16px 34px; }
   .fx-title { font-size: 18px; }
   .fx-btn { padding: 9px 12px; }
+}
+/* ================================
+   Home Topbar / Tabs (Mobile-first fix)
+   ================================ */
+
+/* 给 HomePage 的 topbar 一个更稳的结构（不影响其他页面） */
+.fx-topbarHome {
+  display: grid;
+  gap: 10px;
+}
+
+/* 第一行：品牌 */
+.fx-topbarHome .fx-topbarRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* 第二行：tabs 容器（桌面默认可换行；移动端改成横向滚动） */
+.fx-topbarHome .fx-tabsHome {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 768px) {
+
+  /* Home 顶部结构 */
+  .fx-topbarHome {
+    gap: 6px;   /* 顶部品牌 & tabs 的整体间距，略收紧 */
+  }
+
+  /* tabs：一排横向滚动 */
+  .fx-topbarHome .fx-tabsHome {
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 4px 0 6px;   /* 上4，下6：视觉更贴合 Vision 卡片 */
+    gap: 8px;
+  }
+
+  /* 单个 tab：手机端更小 */
+  .fx-topbarHome .fx-tabsHome .fx-tab {
+    flex: 0 0 auto;
+    padding: 6px 10px;    /* ⬅️ 比桌面更小 */
+    font-size: 12px;      /* ⬅️ 保证 Review 能显示 */
+  }
+
+  /* 2026 Vision 卡片整体上移一点 */
+  .fx-main {
+    margin-top: -6px;
+  }
+}
+/* ================================
+   Records · Type cards stack on mobile
+   ================================ */
+@media (max-width: 768px) {
+  .fx-recordTypes {
+    grid-template-columns: 1fr !important; /* 3列 -> 1列 */
+  }
+}
+/* ================================
+   Review · Mobile title month sizing
+   ================================ */
+@media (max-width: 768px) {
+  .fx-reviewMonth{
+    font-size: 12px;   /* 只缩小月份 */
+    opacity: 0.88;
+    letter-spacing: 0.1px;
+  }
+}
+@media (max-width: 768px) {
+  /* Title: only month smaller */
+  .fx-reviewMonth{
+    font-size: 12px;
+    opacity: 0.88;
+    letter-spacing: 0.1px;
+  }
+
+  /* Progress cards: auto wrap like Snapshot */
+  .fx-reviewProgressGrid{
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important;
+  }
+}
+/* Dashboard row grid: desktop default */
+.fx-dashRowGrid{
+  display: grid;
+  grid-template-columns: minmax(260px, 1fr) 240px 260px 180px;
+  gap: 16px;
+  align-items: center;
+}
+
+/* Phone: stack into vertical blocks (keeps same visual style, just reflow) */
+@media (max-width: 560px){
+  .fx-dashRowGrid{
+    grid-template-columns: 1fr;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  /* CTA: full width on phone */
+  .fx-dashColCta{
+    align-items: stretch !important; /* override inline alignItems */
+  }
+  .fx-dashColCta .fx-btn{
+    width: 100%;
+    justify-content: center;
+  }
+  .fx-dashColCta .fx-muted{
+    text-align: left !important;
+  }
+}
+/* Dashboard – section titles (Milestones / YTD) */
+.fx-dashSectionTitle {
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  color: rgba(245, 245, 255, 0.95);
+  margin-bottom: 10px;
+  text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+}
+
+/* Mobile: slightly larger & clearer */
+@media (max-width: 560px) {
+  .fx-dashSectionTitle {
+    font-size: 16px;
+    font-weight: 820;
+  }
+}
+/* Monthly Board - mobile split layout (desktop unchanged) */
+@media (max-width: 560px) {
+  .fx-mbRow {
+    grid-template-columns: 1fr !important; /* 3 columns -> 1 column */
+    gap: 12px !important;
+    align-items: stretch !important;
+  }
+
+  .fx-mbLeft,
+  .fx-mbRight,
+  .fx-mbAction {
+    width: 100%;
+  }
+
+  /* Action area: button full width + aligned like a section footer */
+  .fx-mbAction {
+    justify-items: stretch !important;
+  }
+  .fx-mbAction .fx-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Optional: make months rows a bit tighter on mobile */
+  .fx-mbRight .fx-body {
+    font-size: 13px;
+  }
+}
+/* Vision Detail — mobile layout only */
+@media (max-width: 680px) {
+  /* A) Summary：从左右变成三行 */
+  .fx-vd-summaryRow {
+    flex-direction: column !important;
+    align-items: stretch !important;
+  }
+
+  .fx-vd-due {
+    text-align: left !important;
+    min-width: 0 !important;
+    width: 100% !important;
+  }
+
+  /* B) 页面两栏：变一栏 */
+  .fx-vd-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* C) Milestones：日期/内容上下堆叠 */
+  .fx-vd-milestoneRow {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* D) Risks：Risk / Response 上下堆叠 */
+  .fx-vd-riskGrid {
+    grid-template-columns: 1fr !important;
+  }
 }
