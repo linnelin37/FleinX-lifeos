@@ -14,16 +14,16 @@ import { GOALS_CHANGED_EVENT, readGoalsByVision, type GoalItem } from "../lib/go
 type Props = {
   activeVisionId: string | null;
   onBack: () => void;
-  onOpenVision: (id: string) => void;
+  onOpenVision: (id: string) => void; // 保留签名不改（即使页面不再用）
 };
 
 function formatMins(mins: number) {
   const m = Math.max(0, Math.floor(mins || 0));
   const h = Math.floor(m / 60);
   const r = m % 60;
-  if (h <= 0) return `${m} min`;
+  if (h <= 0) return `${m}min`;
   if (r === 0) return `${h}h`;
-  return `${h}h ${r}m`;
+  return `${h}h${r}m`;
 }
 
 function normalizeMilestones(v: any): Array<{ date: string; text: string }> {
@@ -39,7 +39,10 @@ function normalizeMilestones(v: any): Array<{ date: string; text: string }> {
   return [];
 }
 
-function legacyMilestoneLabel(milestoneId: string | undefined, milestones: Array<{ date: string; text: string }>) {
+function legacyMilestoneLabel(
+  milestoneId: string | undefined,
+  milestones: Array<{ date: string; text: string }>
+) {
   if (!milestoneId) return "";
   const idxStr = String(milestoneId).replace("m", "");
   const idx = Number(idxStr);
@@ -48,7 +51,7 @@ function legacyMilestoneLabel(milestoneId: string | undefined, milestones: Array
   return `M${idx + 1} · ${t}`;
 }
 
-export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }: Props) {
+export default function TimeBlocksPage({ activeVisionId, onBack }: Props) {
   const [tick, setTick] = useState(0);
 
   // form
@@ -134,7 +137,9 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
 
     const map = new Map<string, string>();
     ([0, 1, 2] as const).forEach((mi) => {
-      const sorted = [...byM[mi]].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+      const sorted = [...byM[mi]].sort(
+        (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+      );
       sorted.forEach((g, i) => map.set(g.id, `M${mi + 1}-${i + 1}`));
     });
 
@@ -224,6 +229,14 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
     whiteSpace: "nowrap",
   };
 
+  // ✅ 发光胶囊：只用于时间 30min / 40min 等
+  const glowMinsPill: CSSProperties = {
+    ...tinyPill,
+    border: "1px solid rgba(149,120,255,0.70)",
+    boxShadow: "0 0 0 1px rgba(149,120,255,0.22), 0 0 18px rgba(149,120,255,0.28)",
+    background: "rgba(255,255,255,0.03)",
+  };
+
   const sectionCard: CSSProperties = {
     padding: 16,
     borderRadius: 18,
@@ -231,11 +244,22 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
     background: "rgba(255,255,255,0.02)",
   };
 
+  // ✅ 手机端友好：改成 flex，label 更窄，输入区域自适应
   const row: CSSProperties = {
-    display: "grid",
-    gridTemplateColumns: "110px 1fr",
-    gap: 12,
+    display: "flex",
     alignItems: "center",
+    gap: 8,
+    flexWrap: "nowrap",
+  };
+
+  const labelCol: CSSProperties = {
+    width: 64,
+    flex: "0 0 auto",
+  };
+
+  const fieldCol: CSSProperties = {
+    flex: "1 1 0px",
+    minWidth: 0,
   };
 
   const label: CSSProperties = {
@@ -262,6 +286,7 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                 <div className="fx-title">Time</div>
               </div>
             </div>
+
             <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
               ← Back
             </button>
@@ -297,6 +322,7 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                 <div className="fx-title">Time</div>
               </div>
             </div>
+
             <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
               ← Back
             </button>
@@ -323,13 +349,13 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
   // UI
   // --------------------------
   const visionTitle = String((vision as any).title || "-");
-  const subtitle = "你的时间，是否在持续推进你真正想做成的事情。"; // 以后只改这里即可
+  const subtitle = "你的时间，是否在持续推进你真正想做成的事情。";
 
   return (
     <div className="fx-app">
       <div className="fx-bg" />
       <div className="fx-container">
-        {/* Topbar */}
+        {/* Topbar（✅只留 Back，去掉 Open Vision） */}
         <div className="fx-topbar">
           <div className="fx-brand">
             <div className="fx-brandMark" />
@@ -339,18 +365,13 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
             </div>
           </div>
 
-          <div style={{ display: "flex", gap: 10 }}>
-            <button className="fx-btn fx-btnGhost" type="button" onClick={() => onOpenVision(activeVisionId)}>
-              Open Vision →
-            </button>
-            <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
-              ← Back
-            </button>
-          </div>
+          <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
+            ← Back
+          </button>
         </div>
 
         <div className="fx-card fx-main" style={{ padding: 18 }}>
-          {/* Header (Goal-style) */}
+          {/* Header */}
           <div
             style={{
               display: "flex",
@@ -385,7 +406,6 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                 {`【${visionTitle}】`}
               </div>
 
-              {/* ✅ 关键：小字紧贴在 Vision 下面（和 Goals 一致） */}
               <div className="fx-muted" style={{ fontSize: 12, marginTop: 10 }}>
                 {subtitle}
               </div>
@@ -408,26 +428,30 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
             <div style={{ display: "grid", gap: 10, marginTop: 12 }}>
               {/* Minutes */}
               <div style={row}>
-                <div style={label}>Minutes</div>
-                <input
-                  className="fx-input"
-                  value={minutesStr}
-                  placeholder="30"
-                  onChange={(e) => setMinutesStr(e.target.value)}
-                  inputMode="numeric"
-                />
+                <div style={{ ...label, ...labelCol }}>Minutes</div>
+                <div style={fieldCol}>
+                  <input
+                    className="fx-input"
+                    value={minutesStr}
+                    placeholder="30"
+                    onChange={(e) => setMinutesStr(e.target.value)}
+                    inputMode="numeric"
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
 
               {/* Goal picker */}
               <div style={row} ref={goalPickerWrapRef}>
-                <div style={label}>Goal</div>
+                <div style={{ ...label, ...labelCol }}>Goal</div>
 
-                <div style={{ position: "relative" }}>
+                <div style={{ ...fieldCol, position: "relative" }}>
                   <button
                     type="button"
                     className="fx-input"
                     onClick={() => setGoalPickerOpen((v) => !v)}
                     style={{
+                      width: "100%",
                       textAlign: "left",
                       display: "flex",
                       alignItems: "center",
@@ -448,7 +472,8 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                         position: "absolute",
                         zIndex: 60,
                         left: 0,
-                        right: 0,
+                        right: "auto",
+                        width: "min(520px, 100%)",
                         marginTop: 8,
                         borderRadius: 16,
                         border: "1px solid rgba(255,255,255,0.14)",
@@ -526,13 +551,16 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
 
               {/* Note */}
               <div style={row}>
-                <div style={label}>Note</div>
-                <input
-                  className="fx-input"
-                  value={note}
-                  placeholder="完成页面布局 / 写完一段关键逻辑"
-                  onChange={(e) => setNote(e.target.value)}
-                />
+                <div style={{ ...label, ...labelCol }}>Note</div>
+                <div style={fieldCol}>
+                  <input
+                    className="fx-input"
+                    value={note}
+                    placeholder="写完一段关键逻辑"
+                    onChange={(e) => setNote(e.target.value)}
+                    style={{ width: "100%" }}
+                  />
+                </div>
               </div>
 
               {err ? (
@@ -592,7 +620,7 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
               {recent10.length ? (
                 recent10.map((x) => {
                   const g = x.goalId ? goalMap.get(String(x.goalId)) : undefined;
-                  const legacy = !g && x.milestoneId ? legacyMilestoneLabel(x.milestoneId, milestones) : "";
+                  const legacy = !g && (x as any).milestoneId ? legacyMilestoneLabel((x as any).milestoneId, milestones) : "";
                   const goalLine = g ? `Goal · ${goalLabelById(g.id)}` : legacy ? `Legacy · ${legacy}` : "";
 
                   return (
@@ -609,7 +637,9 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                       <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
                         <div style={{ minWidth: 0 }}>
                           <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                            <span style={tinyPill}>{formatMins(x.minutes)}</span>
+                            {/* ✅ 只让时间胶囊发光 */}
+                            <span style={glowMinsPill}>{formatMins(x.minutes)}</span>
+
                             <div className="fx-muted" style={{ fontSize: 12 }}>
                               {new Date(x.createdAt).toLocaleString()}
                             </div>
@@ -664,7 +694,7 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                   {historyItems.length ? (
                     historyItems.map((x) => {
                       const g = x.goalId ? goalMap.get(String(x.goalId)) : undefined;
-                      const legacy = !g && x.milestoneId ? legacyMilestoneLabel(x.milestoneId, milestones) : "";
+                      const legacy = !g && (x as any).milestoneId ? legacyMilestoneLabel((x as any).milestoneId, milestones) : "";
                       const goalLine = g ? `Goal · ${goalLabelById(g.id)}` : legacy ? `Legacy · ${legacy}` : "";
 
                       return (
@@ -682,7 +712,9 @@ export default function TimeBlocksPage({ activeVisionId, onBack, onOpenVision }:
                           <div style={{ display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }}>
                             <div style={{ minWidth: 0 }}>
                               <div style={{ display: "flex", alignItems: "center", gap: 10, flexWrap: "wrap" }}>
-                                <span style={tinyPill}>{formatMins(x.minutes)}</span>
+                                {/* ✅ 只让时间胶囊发光 */}
+                                <span style={glowMinsPill}>{formatMins(x.minutes)}</span>
+
                                 <div className="fx-muted" style={{ fontSize: 12 }}>
                                   {new Date(x.createdAt).toLocaleString()}
                                 </div>

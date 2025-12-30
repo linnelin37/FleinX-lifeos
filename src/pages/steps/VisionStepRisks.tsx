@@ -114,7 +114,7 @@ export default function VisionStepRisks({ title, risks, onChange, onBack, onNext
                   <input
                     className="fx-input"
                     value={risks[idx]?.risk ?? ""}
-                    placeholder="例如：坚持不下来 / 时间被工作挤占"
+                    placeholder="坚持不下来 / 时间被工作挤占"
                     onChange={(e) => updateAt(idx, { risk: e.target.value })}
                   />
                 </div>
@@ -140,7 +140,7 @@ export default function VisionStepRisks({ title, risks, onChange, onBack, onNext
                   <input
                     className="fx-input"
                     value={risks[idx]?.plan ?? ""}
-                    placeholder="例如：最低承诺 30 分钟；周末补齐；公开打卡"
+                    placeholder="最低承诺 30 分钟；周末补齐；公开打卡"
                     onChange={(e) => updateAt(idx, { plan: e.target.value })}
                   />
                 </div>

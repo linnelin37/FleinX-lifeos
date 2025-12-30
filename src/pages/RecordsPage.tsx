@@ -12,7 +12,7 @@ import {
 type Props = {
   activeVisionId: string | null;
   onBack: () => void;
-  onOpenVision: (id: string) => void;
+
 };
 
 function typeLabel(t: RecordType) {
@@ -33,7 +33,7 @@ function pillClass(t: RecordType) {
   return "fx-pill fx-pill-log";
 }
 
-export default function RecordsPage({ activeVisionId, onBack, onOpenVision }: Props) {
+export default function RecordsPage({ activeVisionId, onBack}: Props) {
   const [tick, setTick] = useState(0);
 
   const vision = useMemo(() => {
@@ -202,9 +202,7 @@ export default function RecordsPage({ activeVisionId, onBack, onOpenVision }: Pr
           </div>
 
           <div style={{ display: "flex", gap: 10 }}>
-            <button className="fx-btn fx-btnGhost" type="button" onClick={() => onOpenVision(activeVisionId)}>
-              Open Vision →
-            </button>
+    
             <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
               ← Back
             </button>

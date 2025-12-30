@@ -1161,3 +1161,8 @@ select.fx-input:focus {
     grid-template-columns: 1fr !important;
   }
 }
+.fleinx-desc {
+  max-width: 20em;        /* 手机端强制两行 */
+  line-height: 1.6;
+  word-break: break-word;
+}

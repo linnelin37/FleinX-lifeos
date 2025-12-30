@@ -169,7 +169,7 @@ export default function App() {
       <GoalsPage
         activeVisionId={app.activeVisionId}
         onBack={() => go("#/")}
-        onOpenVision={(id) => go(`#/vision/${id}`)}
+      
       />
     );
   }
@@ -180,7 +180,7 @@ export default function App() {
       <TimeBlocksPage
         activeVisionId={app.activeVisionId}
         onBack={() => go("#/")}
-        onOpenVision={(id) => go(`#/vision/${id}`)}
+      onOpenVision={(id: string) => go(`#/vision/${id}`)}
       />
     );
   }
@@ -191,7 +191,7 @@ export default function App() {
       <RecordsPage
         activeVisionId={app.activeVisionId}
         onBack={() => go("#/")}
-        onOpenVision={(id) => go(`#/vision/${id}`)}
+      
       />
     );
   }
@@ -202,7 +202,7 @@ export default function App() {
       <ReviewPage
         activeVisionId={app.activeVisionId}
         onBack={() => go("#/")}
-        onOpenVision={(id) => go(`#/vision/${id}`)}
+      
         onGo={go}
       />
     );

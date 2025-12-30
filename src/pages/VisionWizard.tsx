@@ -46,10 +46,10 @@ const TYPE_META: Record<VisionType, { titleZh: string; titleEn: string; desc: st
 
 // Step2：不同类型的标题示例（只影响 placeholder，不影响逻辑）
 const STEP2_TITLE_PLACEHOLDER: Record<VisionType, string> = {
-  learning: "例如：英语能在专业会议中清晰表达并完成 2 次汇报",
-  work: "例如：主导并交付一个关键项目，产出可验证结果",
-  life: "例如：建立稳定作息与运动系统，让状态长期可持续",
-  project: "例如：完成 FleinX MVP 并持续迭代，形成可复用作品",
+  learning: "英语可用于专业场景的清晰表达",
+  work: "交付一个产生真实价值的关键项目",
+  life: "形成稳定且可持续的高质量生活",
+  project: "FleinX 可线上使用的成熟版本",
 };
 
 const STORAGE_KEY = "fx_vis_v1";
@@ -141,7 +141,7 @@ export default function VisionWizard() {
             <div className="fx-wizardHeader">
               <div className="fx-step">Step 1 / 7</div>
               <div className="fx-h1">What kind of Vision are you creating?</div>
-              <div className="fx-sub">Different visions need different navigation systems.</div>
+              <div className="fx-sub">不同的愿景，会引导你走向不同的行动方式。</div>
             </div>
 
             <div className="fx-grid">
@@ -169,7 +169,7 @@ export default function VisionWizard() {
             </div>
 
             <div className="fx-wizardFooter">
-              <div className="fx-muted">Select one type to continue. (No data saved yet)</div>
+              <div className="fx-muted">Select one type to continue. </div>
 
               <button
                 className={`fx-btn fx-btnPrimary ${canNextStep1 ? "" : "is-disabled"}`}
@@ -372,7 +372,7 @@ export default function VisionWizard() {
                 <input
                   className="fx-input"
                   value={draft.why}
-                  placeholder="写一句理由即可（可不填）"
+                  placeholder="写一句理由即可"
                   onChange={(e) => setDraft((d) => ({ ...d, why: e.target.value }))}
                   style={{ marginTop: 10 }}
                 />

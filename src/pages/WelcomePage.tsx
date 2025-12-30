@@ -13,9 +13,13 @@ type Props = {
   onContinue: () => void; // 继续进入 Home
 };
 
-const FIXED_LINE = "Fleinx 是一个以“事情”为核心的人生项目管理系统。";
+const FIXED_LINE =
+  "FleinX 是一个以「事情」为核心的人生项目管理系统。";
+
 const DEFAULT_NAME = "My2026";
-const DEFAULT_NOTE = "不记录你忙不忙，，<br />只记录：你的人生是否在推进你真正想做成的事情。";
+
+const DEFAULT_NOTE =
+  "不记录你有多忙，\n只记录：你的人生是否正在推进你真正想做成的事情。";
 
 function normalizeName(v: string) {
   const t = (v || "").trim();
@@ -104,7 +108,7 @@ export default function WelcomePage({ onContinue }: Props) {
             />
 
             <div className="fx-muted" style={{ marginTop: 8 }}>
-              写一句能让你在低谷时也愿意继续的句子。
+              写一句能在你动摇时，帮你找回方向的话。
             </div>
           </div>
 
@@ -121,7 +125,7 @@ export default function WelcomePage({ onContinue }: Props) {
           </div>
 
           <div className="fx-muted" style={{ marginTop: 10 }}>
-            本地单机 ·
+            单机本地存储版本
           </div>
 
           {/* Actions */}

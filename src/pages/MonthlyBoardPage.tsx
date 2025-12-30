@@ -234,7 +234,7 @@ void softPanel;
             <div className="fx-h3" style={{ margin: 0 }}>
               Year Overview · {year}
             </div>
-            <div className="fx-sub">不是激励你开始，而是确认你已经在路上了。</div>
+            <div className="fx-sub">不是推你向前，而是确认你没有偏航。</div>
           </div>
 
           <div style={{ display: "grid", gap: 16 }}>

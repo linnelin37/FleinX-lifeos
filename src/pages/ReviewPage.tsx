@@ -9,7 +9,7 @@ import { readTimeByVision, TIME_CHANGED_EVENT } from "../lib/timeStore";
 type Props = {
   activeVisionId: string | null;
   onBack: () => void;
-  onOpenVision: (id: string) => void;
+
   onGo: (hash: string) => void;
 };
 
@@ -60,7 +60,7 @@ function readRecordsByVisionCompat(visionId: string): RecordItem[] {
   return [];
 }
 
-export default function ReviewPage({ activeVisionId, onBack, onOpenVision, onGo }: Props) {
+export default function ReviewPage({ activeVisionId, onBack, onGo }: Props) {
   // =========================
   // Month control
   // =========================
@@ -325,9 +325,8 @@ export default function ReviewPage({ activeVisionId, onBack, onOpenVision, onGo 
           </div>
 
           <div style={{ display: "flex", gap: 10 }}>
-            <button className="fx-btn fx-btnGhost" type="button" onClick={() => onOpenVision(activeVisionId!)}>
-              Open Vision →
-            </button>
+
+        
             <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
               ← Back
             </button>

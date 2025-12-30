@@ -17,7 +17,7 @@ import {
 type Props = {
   activeVisionId: string | null;
   onBack: () => void;
-  onOpenVision: (id: string) => void;
+
 };
 
 function pct(n: number, d: number) {
@@ -35,7 +35,7 @@ function msParts(i: 0 | 1 | 2, ms: any[]) {
   return { label, due, text };
 }
 
-export default function GoalsPage({ activeVisionId, onBack, onOpenVision }: Props) {
+export default function GoalsPage({ activeVisionId, onBack }: Props) {
   // --- Vision ---
   const vision = useMemo(() => {
     if (!activeVisionId) return null;
@@ -248,9 +248,7 @@ export default function GoalsPage({ activeVisionId, onBack, onOpenVision }: Prop
           </div>
 
           <div style={{ display: "flex", gap: 10 }}>
-            <button className="fx-btn fx-btnGhost" type="button" onClick={() => onOpenVision(activeVisionId)}>
-              Open Vision →
-            </button>
+          
             <button className="fx-btn fx-btnGhost" onClick={onBack} type="button">
               ← Back
             </button>
@@ -380,27 +378,41 @@ export default function GoalsPage({ activeVisionId, onBack, onOpenVision }: Prop
                       </div>
 
                       {/* progress */}
-                      <div style={{ marginTop: 10 }}>
-                        <div
-                          style={{
-                            height: 8,
-                            borderRadius: 999,
-                            background: "rgba(255,255,255,0.07)",
-                            overflow: "hidden",
-                          }}
-                        >
-                          <div
-                            style={{
-                              height: "100%",
-                              width: `${Math.round(ratio * 100)}%`,
-                              background: "rgba(255,255,255,0.42)",
-                            }}
-                          />
-                        </div>
-                        <div className="fx-muted" style={{ marginTop: 6, fontSize: 12 }}>
-                          {Math.round(ratio * 100)}% done
-                        </div>
-                      </div>
+ {/* progress */}
+<div style={{ marginTop: 10 }}>
+  <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+    <div
+      style={{
+        flex: 1,
+        height: 8,
+        borderRadius: 999,
+        background: "rgba(255,255,255,0.07)",
+        overflow: "hidden",
+      }}
+    >
+      <div
+        style={{
+          height: "100%",
+          width: `${Math.round(ratio * 100)}%`,
+          background: "rgba(255,255,255,0.42)",
+        }}
+      />
+    </div>
+
+    <div
+      className="fx-muted"
+      style={{
+        fontSize: 12,
+        whiteSpace: "nowrap",
+        minWidth: 60,
+        textAlign: "right",
+      }}
+    >
+      {Math.round(ratio * 100)}% done
+    </div>
+  </div>
+
+                 </div>
                     </div>
 
                     <div style={{ display: "flex", gap: 10, alignItems: "center", flexWrap: "wrap" }}>

@@ -164,7 +164,7 @@ export default function DashboardPage({ visions, activeVisionId, onBack, onGo }:
           </div>
 
           <div className="fx-ytdMeta" style={{ marginTop: 6 }}>
-            不是激励你开始，而是确认你已经在路上了。 Keep going!
+            不是激励你开始，而是确认你已经在路上了， Keep going!
           </div>
 
          
