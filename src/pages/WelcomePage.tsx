@@ -19,7 +19,7 @@ const FIXED_LINE =
 const DEFAULT_NAME = "My2026";
 
 const DEFAULT_NOTE =
-  "不记录你有多忙，\n只记录：你的人生是否正在推进你真正想做成的事情。";
+  "不记录忙不忙，只记录你的人生是否正在推进 你真正想做成的事情。";
 
 function normalizeName(v: string) {
   const t = (v || "").trim();
